@@ -595,6 +595,8 @@ class Connection extends org.apache.cassandra.transport.Connection
 
             //pipeline.addLast("debug", new LoggingHandler(InternalLogLevel.INFO));
 
+            pipeline.addLast("writeBatcher", new AutoFlushingWriteBatcher());
+
             pipeline.addLast("frameDecoder", new Frame.Decoder(tracker, cfactory));
             pipeline.addLast("frameEncoder", frameEncoder);
 
