@@ -116,8 +116,7 @@ class HostConnectionPool {
             int inFlight = leastBusy.inFlight.get();
 
             if (inFlight >= Connection.MAX_STREAM_PER_CONNECTION) {
-                leastBusy = waitForConnection(timeout, unit);
-                break;
+                throw new ConnectionException(null, "too many outstanding requests");
             }
 
             if (leastBusy.inFlight.compareAndSet(inFlight, inFlight + 1))
@@ -217,8 +216,6 @@ class HostConnectionPool {
 
             if (connections.size() > options().getCoreConnectionsPerHost(hostDistance) && inFlight <= options().getMinSimultaneousRequestsPerConnectionTreshold(hostDistance)) {
                 trashConnection(connection);
-            } else {
-                signalAvailableConnection();
             }
         }
     }
