@@ -35,10 +35,8 @@ public abstract class QueryGenerator implements Iterator<QueryGenerator.Request>
         this.iterations = iterations;
     }
 
-    public abstract void createSchema(Session session);
-
     public interface Builder {
-        public QueryGenerator create(int iterations, OptionSet options);
+        public QueryGenerator create(int id, int iterations, OptionSet options, Session session);
     }
 
     public interface Request {
